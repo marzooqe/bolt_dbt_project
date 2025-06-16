@@ -1,0 +1,103 @@
+
+version: 2
+
+sources:
+  - name: staging
+    schema: staging
+    tables:
+      - name: customer
+      - name: customer_group
+      - name: aeroplane
+      - name: aeroplane_model
+      - name: trip
+      - name: order
+
+models:
+  - name: customer
+    description: "customer raw data"
+    columns:
+      - name: Customer_ID
+      - name: Name
+      - name: Customer_Group_ID
+      - name: Email
+      - name: Phone_Number
+
+  - name: customer_group
+    description: "customer grouping raw data"
+    columns:
+      - name: ID
+      - name: Type
+      - name: Name
+      - name: Registry_Number
+
+  - name: DIM_CUSTOMER
+    description: "customer dimensional data"
+    columns:
+      - name: CUSTOMER_ID
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+      - name: NAME
+      - name: CUSTOMER_GROUP_ID
+      - name: EMAIL
+      - name: PHONE_NUMBER
+
+  - name: DIM_CUSTOMER_GROUP
+    description: "customer grouping details"
+    columns:
+      - name: ID
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+      - name: TYPE
+      - name: NAME
+      - name: REGISTRY_NUMBER
+
+  - name: DIM_AEROPLANE
+    description: "features of the aeroplane and details"
+    columns:
+      - name: ID
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+      - name: MODEL
+      - name: NAMANUFACTURERME
+      - name: MAX_SEATS
+      - name: MAX_WEIGHTS
+      - name: MAX_DISTANCE
+      - name: ENGINE_TYPE
+
+  - name: FACT_TRIP
+    description: "The schedule and detail of flights"
+    columns:
+      - name: ID
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+      - name: ORIGIN_CITY
+      - name: DESTINATION_CITY
+      - name: AIRPLANE_ID
+      - name: START_TIMESTAMP
+      - name: END_TIMESTAMP
+      - name: DISTANCE
+      - name: TRIP_TYPE
+
+  - name: FACT_ORDER
+    description: "The sales data of the bookings made from the schedules"
+    columns:
+      - name: ID
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+      - name: CUSTOMER_ID
+      - name: TRIP_ID
+      - name: PRICE_EUR
+      - name: SEAT_NUMBER
+      - name: STATUS
+      
+
